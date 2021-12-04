@@ -25,6 +25,21 @@ python3 planner.py
 - all Google Calendar events from user main calendar are being fetched, without checking if user is attending
 - problems with GCal events which lasts more than one day
 
+## Environment variables
+### Jira
+- `JIRA_TOKEN` - User authorization token, can be generated [here](https://id.atlassian.com/manage-profile/security/api-tokens).
+
+- `JIRA_SERVER` - Your Jira server name i.e. https://organization.atlassian.net/.
+
+- `JIRA_USER` - Your user email.
+
+- `JIRA_PROJECT` - Project ID to fill default JQL query. Not required if you set `JIRA_ISSUES_JQL` variable.  
+
+- `JIRA_ESTIMATE_FIELD` - Name of the field with estimation points, default value: `timeoriginalestimate`.
+
+- `JIRA_ISSUES_JQL` - Custom JQL query for fetching issues from Jira.
+
+- `JIRA_PRIORITY_ORDER` - Set to DESC if your most important tasks has greater priority id than less important ones.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)

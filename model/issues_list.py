@@ -1,4 +1,5 @@
-from typing import Text
+import settings
+
 
 class IssuesList:
     issues = None
@@ -12,4 +13,6 @@ class IssuesList:
 
     @property
     def in_prioritised_order(self):
-        return sorted(self.issues, key=lambda issue: (issue.priority, issue.estimation))
+        return sorted(
+            self.issues,
+            key=lambda issue: (issue.priority if settings.JIRA_PRIORITY_ORDER == "ASC" else -issue.priority, issue.estimation))
