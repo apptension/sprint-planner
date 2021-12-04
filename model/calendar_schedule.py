@@ -38,3 +38,5 @@ class CalendarSchedule:
         self.schedule.remove(target_node)
         if shortened_target_entry.length > 0:
             self.schedule.insertafter(shortened_target_entry, inserted_node)
+            return 2
+        return 1

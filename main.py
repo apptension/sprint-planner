@@ -4,6 +4,11 @@ from planner.visualise import print_calendar, print_issues
 from planner.propose_schedule import propose_schedule
 from model.issues_list import IssuesList
 from model.calendar_schedule import CalendarSchedule
+from services.google_calendar import GoogleCalendarEventsClient
+
+google_event_client = GoogleCalendarEventsClient()
+calendar = google_event_client.get_calendar_list()
+print_calendar(calendar)
 
 mock_issues = IssuesList([
     Issue('1', 'issue_1', 2, 1),
