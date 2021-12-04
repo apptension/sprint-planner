@@ -17,10 +17,15 @@ class GoogleCalendarEventsClient:
     end_date = None
 
     def __init__(self, start_date=None, end_date=None):
+        datetime_format = '%Y-%m-%dT%H:%M:%S.%fZ'
         if not start_date:
             self.start_date = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
+        else:
+            self.start_date = datetime.strptime(start_date, datetime_format).replace(hour=0, minute=0, second=0, microsecond=0, tzinfo=None)
         if not end_date:
             self.end_date = (self.start_date.replace(hour=23, minute=59, second=59, microsecond=0) + timedelta(days=3))
+        else:
+            self.end_date = datetime.strptime(end_date, datetime_format).replace(hour=0, minute=0, second=0, microsecond=0, tzinfo=None)
         self.authenticate()
 
     def _get_calendar_service(self):

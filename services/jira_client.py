@@ -2,7 +2,7 @@ import settings
 
 from typing import Union
 from jira import JIRA
-from jira.resources import Issue as JiraIssue
+from jira.resources import Issue as JiraIssue, Sprint
 from model.issue import Issue
 from model.issues_list import IssuesList
 
@@ -30,3 +30,6 @@ class JiraClient:
         for jira_issue in jira_issues:
             issues += filter(None, [self._create_issue_from_jira_issue(jira_issue)])
         return IssuesList(issues)
+
+    def get_current_sprint(self) -> Sprint:
+        return self.jira.sprints(self.jira.boards(projectKeyOrID=settings.JIRA_PROJECT)[0].id, state="active")[0]

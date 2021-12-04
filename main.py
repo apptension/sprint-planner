@@ -5,8 +5,9 @@ from services.jira_client import JiraClient
 
 jira_client = JiraClient()
 issues = jira_client.get_issues_list()
+current_sprint = jira_client.get_current_sprint()
 
-google_event_client = GoogleCalendarEventsClient()
+google_event_client = GoogleCalendarEventsClient(start_date=current_sprint.startDate, end_date=current_sprint.endDate)
 calendar = google_event_client.get_calendar_list()
 
 print('Available calendar:\n')
