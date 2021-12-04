@@ -36,4 +36,4 @@ class GreedyNaiveWithSplit(CalendarPlannerAlgorithm):
 
             step+=1
 
-        return self.schedule
+        return (self.schedule, self.stats)

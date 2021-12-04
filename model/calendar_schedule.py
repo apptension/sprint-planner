@@ -17,6 +17,16 @@ class CalendarSchedule:
         return sum(entry_free_time(entry) for entry in self.schedule)
 
     @property
+    def total_time_spent_on_issues(self):
+        entry_issue_time = lambda entry : entry.length if entry.busy_on_issue else 0
+        return sum(entry_issue_time(entry) for entry in self.schedule)
+
+    @property
+    def total_time_spent_on_meetings(self):
+        entry_meeting_time = lambda entry : entry.length if entry.busy_on_meeting else 0
+        return sum(entry_meeting_time(entry) for entry in self.schedule)
+
+    @property
     def total_busy_time(self):
         return self.total_time - self.total_free_time
 

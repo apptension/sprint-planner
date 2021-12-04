@@ -25,10 +25,14 @@ print_issues(mock_issues.issues)
 
 print('\n\n')
 
-proposed_schedule = propose_schedule(calendar, mock_issues, time_per_estimation_point=30, algorithm=Algorithm.NAIVE_GREEDY_WITH_SPLIT)
+(proposed_schedule, stats) = propose_schedule(
+    calendar, 
+    mock_issues, 
+    time_per_estimation_point=60, 
+    algorithm=Algorithm.NAIVE_GREEDY_WITH_SPLIT
+    )
 
 print('\n\n')
 
 print('Output:\n')
 print_calendar(proposed_schedule)
-
