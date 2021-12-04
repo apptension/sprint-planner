@@ -1,7 +1,7 @@
 from model.calendar_entry import CalendarEntry
 from model.issue import Issue
 from planner.visualise import print_calendar, print_issues
-from planner.propose_schedule import propose_schedule
+from planner.propose_schedule import Algorithm, propose_schedule
 from model.issues_list import IssuesList
 from model.calendar_schedule import CalendarSchedule
 from services.google_calendar import GoogleCalendarEventsClient
@@ -25,7 +25,7 @@ print_issues(mock_issues.issues)
 
 print('\n\n')
 
-proposed_schedule = propose_schedule(calendar, mock_issues, time_per_estimation_point=30)
+proposed_schedule = propose_schedule(calendar, mock_issues, time_per_estimation_point=30, algorithm=Algorithm.NAIVE_GREEDY_WITH_SPLIT)
 
 print('\n\n')
 
