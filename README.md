@@ -9,17 +9,22 @@ Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
 ```bash
 python -m pip install -r requirements.txt
 ```
+For Google Calendar integration:
+
+1. Create Google Cloud Platform project with the Google Calendar API enabled. To create a project and enable an API, refer to [Create a project and enable the API](https://developers.google.com/workspace/guides/create-project)
+2. Create authorization credentials for a desktop application. To learn how to create credentials for a desktop application, refer to [Create credentials](https://developers.google.com/workspace/guides/create-credentials).
+3. Save file with credentials as `credentials.json` in main project folder.
 
 ## Usage
 
 ```python
-
+python3 planner.py
 ```
 
-## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+## Known issues
+- all Google Calendar events from user main calendar are being fetched, without checking if user is attending
+- 
 
-Please make sure to update tests as appropriate.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
