@@ -4,9 +4,11 @@ from model.issues_list import IssuesList
 from planner.algorithm.calendar_planner_algorithm import CalendarPlannerAlgorithm
 from llist import sllist
 
+from planner.visualise import print_calendar
+
 class GreedyNaive(CalendarPlannerAlgorithm):
-    def __init__(self, schedule: CalendarSchedule, issues: IssuesList):
-        super().__init__(name="Greedy Naive", schedule=schedule, issues=issues)
+    def __init__(self, schedule: CalendarSchedule, issues: IssuesList, time_per_estimation_point = None):
+        super().__init__(name="Greedy Naive", schedule=schedule, issues=issues, time_per_estimation_point=time_per_estimation_point)
         self.issues_queue = sllist(self.issues.in_prioritised_order)
     
     def pop_next_issue(self):
@@ -14,6 +16,7 @@ class GreedyNaive(CalendarPlannerAlgorithm):
 
     def run(self):
         super().run()
+        step = 0
 
         while self.issues_queue.size > 0:
             issue = self.pop_next_issue()
@@ -23,5 +26,14 @@ class GreedyNaive(CalendarPlannerAlgorithm):
             
             if (matching_slot):
                 self.schedule.add_entry_within(matching_slot, issue_calendar_entry)
+
+            print('\n\n')
+            print('Algorithm step #{}'.format(step))
+            print('Planned {} ({} minutes)'.format(issue.name, required_issue_time))
+            print('\n')
+            print('Schedule after step #{}'.format(step))
+            print_calendar(self.schedule)
+
+            step+=1
 
         return self.schedule

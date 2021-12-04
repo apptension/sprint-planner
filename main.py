@@ -29,7 +29,7 @@ print_issues(mock_issues.issues)
 
 print('\n\n')
 
-proposed_schedule = propose_schedule(mock_calendar, mock_issues)
+proposed_schedule = propose_schedule(mock_calendar, mock_issues, time_per_estimation_point=30)
 
 print('\n\n')
 

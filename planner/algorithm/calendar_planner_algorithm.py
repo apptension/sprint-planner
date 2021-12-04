@@ -4,11 +4,11 @@ from model.issues_list import IssuesList
 from planner.visualise import print_issues
 
 class CalendarPlannerAlgorithm:
-    def __init__(self, name: str, schedule: CalendarSchedule, issues: IssuesList):
+    def __init__(self, name: str, schedule: CalendarSchedule, issues: IssuesList, time_per_estimation_point: int):
         self.name = name
         self.schedule = schedule
         self.issues = issues
-        self.expected_time_per_estimation_point = math.ceil(self.schedule.total_free_time / self.issues.total_estimation)
+        self.expected_time_per_estimation_point = time_per_estimation_point or math.ceil(self.schedule.total_free_time / self.issues.total_estimation)
 
     def run(self):
         print('Running "{}"\n'.format(self.name))
