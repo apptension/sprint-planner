@@ -1,18 +1,18 @@
-from llist import sllist
-
 from model.calendar_entry import CalendarEntry
 from model.issue import Issue
 from planner.visualise import print_calendar, print_issues
 from planner.propose_schedule import propose_schedule
+from model.issues_list import IssuesList
+from model.calendar_schedule import CalendarSchedule
 
-mock_issues = [
+mock_issues = IssuesList([
     Issue('1', 'issue_1', 2, 1),
-    Issue('2', 'issue_2', 3, 3),
+    Issue('2', 'issue_2', 5, 3),
     Issue('3', 'issue_3', 4, 8),
     Issue('4', 'issue_4', 3, 3),
-]
+])
 
-mock_calendar = sllist([
+mock_calendar = CalendarSchedule([
     CalendarEntry(False, None, 60),
     CalendarEntry(True, None, 120),
     CalendarEntry(False, None, 60),
@@ -25,7 +25,12 @@ print_calendar(mock_calendar)
 
 print('\n\n')
 print('Available Issues:\n')
-print_issues(mock_issues)
+print_issues(mock_issues.issues)
+
+
+print('\n\n')
+print('Available Issues (Prioritised):\n')
+print_issues(mock_issues.in_prioritised_order)
 
 print('\n\n')
 

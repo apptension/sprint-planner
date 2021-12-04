@@ -1,4 +1,6 @@
-def print_calendar(calendar_enties_list):
+def print_calendar(calendar_schedule):
+    calendar_enties_list = calendar_schedule.entries
+    
     for index, entry in enumerate(calendar_enties_list):
         blockTypeLabel = 'Busy' if entry.busy else 'Free'
         blockDurationLabel = '{} minutes'.format(entry.length)
