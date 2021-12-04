@@ -14,8 +14,6 @@ httplib2==0.20.2
 idna==3.3
 llist==0.7.1
 oauthlib==3.1.1
-# Editable install with no version control (pipenv==2021.5.29)
--e /Users/mateusz/.pyenv/versions/3.8.6/lib/python3.8/site-packages
 platformdirs==2.0.2
 protobuf==3.19.1
 pyasn1==0.4.8
