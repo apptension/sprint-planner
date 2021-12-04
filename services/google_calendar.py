@@ -1,10 +1,13 @@
 from __future__ import print_function
-import datetime
+from datetime import date, timedelta, datetime
 import os.path
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
+
+from model.calendar_schedule import CalendarSchedule
+from model.calendar_entry import CalendarEntry
 
 
 class GoogleCalendarEventsClient:
@@ -15,9 +18,9 @@ class GoogleCalendarEventsClient:
 
     def __init__(self, start_date=None, end_date=None):
         if not start_date:
-            self.start_date = datetime.datetime.utcnow()
+            self.start_date = datetime.utcnow()
         if not end_date:
-            self.end_date = (datetime.datetime.utcnow() + datetime.timedelta(days=14))
+            self.end_date = (datetime.utcnow() + timedelta(days=14))
         self.authenticate()
 
     def _get_calendar_service(self):
@@ -58,14 +61,27 @@ class GoogleCalendarEventsClient:
             start = event['start'].get('dateTime', None)
             end = event['end'].get('dateTime', None)
             if start and end:
-                fmt = '%Y-%m-%dT%H:%M:%S%z'
-                start = datetime.datetime.strptime(start, fmt)
-                end = datetime.datetime.strptime(end, fmt)
+                datetime_format = '%Y-%m-%dT%H:%M:%S%z'
+                start = datetime.strptime(start, datetime_format)
+                end = datetime.strptime(end, datetime_format)
                 duration = self._get_event_duration_minutes(start, end)
                 result.append({"start": start, "end": end, "duration": duration})
         return result
 
+    def get_calendar_list(self, working_hours_from=9, working_hours_to=17, working_days_from=0, working_days_to=4):
+        def daterange(start_date, end_date):
+            for n in range(int((end_date - start_date).days)):
+                yield start_date + timedelta(n)
 
-    def get_calendar_list(self, working_hours_from=9, working_hours_to=17, working_days_from=1, working_days_to=5):
+        start_date = self.start_date
+        end_date = self.end_date
+        calendar_entries = []
+        dates = []
+        for single_date in daterange(start_date, end_date):
+            weekday = single_date.weekday()
+            if working_days_from <= weekday <= working_days_to:
+                dates.append(single_date)
+                calendar_entries.append(CalendarEntry(False, None, ((working_hours_to - working_hours_from) * 60)))
 
-        pass
+        events = self.get_events()
+        return CalendarSchedule(calendar_entries)
