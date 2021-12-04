@@ -18,9 +18,9 @@ class GoogleCalendarEventsClient:
 
     def __init__(self, start_date=None, end_date=None):
         if not start_date:
-            self.start_date = datetime.utcnow()
+            self.start_date = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
         if not end_date:
-            self.end_date = (datetime.utcnow() + timedelta(days=14))
+            self.end_date = (self.start_date.replace(hour=23, minute=59, second=59, microsecond=0) + timedelta(days=3))
         self.authenticate()
 
     def _get_calendar_service(self):
@@ -71,7 +71,7 @@ class GoogleCalendarEventsClient:
 
     def get_calendar_list(self, working_hours_from=9, working_hours_to=17, working_days_from=0, working_days_to=4):
         def daterange(start_date, end_date):
-            for n in range(int((end_date - start_date).days)):
+            for n in range(int((end_date - start_date).days) + 1):
                 yield start_date + timedelta(n)
 
         start_date = self.start_date
@@ -90,6 +90,8 @@ class GoogleCalendarEventsClient:
                 )
                 calendar_entries.append(CalendarEntry(False, None, ((working_hours_to - working_hours_from) * 60)))
         calendar_schedule = CalendarSchedule(calendar_entries)
+        if not calendar_entries:
+            return calendar_schedule
 
         events = self.get_events()
         added_entries = 0
