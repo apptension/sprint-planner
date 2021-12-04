@@ -8,6 +8,7 @@ from services.google_calendar import GoogleCalendarEventsClient
 
 google_event_client = GoogleCalendarEventsClient()
 calendar = google_event_client.get_calendar_list()
+print_calendar(calendar)
 
 mock_issues = IssuesList([
     Issue('1', 'issue_1', 2, 1),
