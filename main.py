@@ -8,7 +8,6 @@ from services.google_calendar import GoogleCalendarEventsClient
 
 google_event_client = GoogleCalendarEventsClient()
 calendar = google_event_client.get_calendar_list()
-print_calendar(calendar)
 
 mock_issues = IssuesList([
     Issue('1', 'issue_1', 2, 1),
@@ -17,16 +16,8 @@ mock_issues = IssuesList([
     Issue('4', 'issue_4', 3, 3),
 ])
 
-mock_calendar = CalendarSchedule([
-    CalendarEntry(False, None, 60),
-    CalendarEntry(True, None, 120),
-    CalendarEntry(False, None, 60),
-    CalendarEntry(True, None, 60),
-    CalendarEntry(False, None, 180),
-])
-
 print('Available calendar:\n')
-print_calendar(mock_calendar)
+print_calendar(calendar)
 
 print('\n\n')
 print('Available Issues:\n')
@@ -34,7 +25,7 @@ print_issues(mock_issues.issues)
 
 print('\n\n')
 
-proposed_schedule = propose_schedule(mock_calendar, mock_issues, time_per_estimation_point=30)
+proposed_schedule = propose_schedule(calendar, mock_issues, time_per_estimation_point=30)
 
 print('\n\n')
 
