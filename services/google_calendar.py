@@ -1,5 +1,5 @@
 from __future__ import print_function
-from datetime import date, timedelta, datetime
+from datetime import timedelta, datetime
 import os.path
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -41,7 +41,7 @@ class GoogleCalendarEventsClient:
                 token.write(self.creds.to_json())
 
     @staticmethod
-    def _get_event_duration_minutes(start, end):
+    def _get_datetime_difference_in_minutes(start, end):
         return int((end - start).seconds / 60)
 
     def get_events(self):
@@ -62,10 +62,11 @@ class GoogleCalendarEventsClient:
             end = event['end'].get('dateTime', None)
             if start and end:
                 datetime_format = '%Y-%m-%dT%H:%M:%S%z'
-                start = datetime.strptime(start, datetime_format)
-                end = datetime.strptime(end, datetime_format)
-                duration = self._get_event_duration_minutes(start, end)
-                result.append({"start": start, "end": end, "duration": duration})
+                start = datetime.strptime(start, datetime_format).replace(tzinfo=None)
+                end = datetime.strptime(end, datetime_format).replace(tzinfo=None)
+                duration = self._get_datetime_difference_in_minutes(start, end)
+                if duration:
+                    result.append({"start": start, "end": end, "duration": duration})
         return result
 
     def get_calendar_list(self, working_hours_from=9, working_hours_to=17, working_days_from=0, working_days_to=4):
@@ -80,8 +81,35 @@ class GoogleCalendarEventsClient:
         for single_date in daterange(start_date, end_date):
             weekday = single_date.weekday()
             if working_days_from <= weekday <= working_days_to:
-                dates.append(single_date)
+                dates.append(
+                    {
+                        "date": single_date.date(),
+                        "start": single_date.replace(hour=working_hours_from, minute=0, second=0, microsecond=0),
+                        "end": single_date.replace(hour=working_hours_to, minute=0, second=0, microsecond=0),
+                    }
+                )
                 calendar_entries.append(CalendarEntry(False, None, ((working_hours_to - working_hours_from) * 60)))
+        calendar_schedule = CalendarSchedule(calendar_entries)
 
         events = self.get_events()
-        return CalendarSchedule(calendar_entries)
+        added_entries = 0
+        dates_iterator = 0
+        temporary_start = dates[dates_iterator]["start"]
+        for event in events:
+            while dates[dates_iterator]["date"] != event["start"].date():
+                dates_iterator += 1
+                temporary_start = dates[dates_iterator]["start"]
+            if temporary_start <= event["start"] <= dates[dates_iterator]["end"]:
+                free_time = self._get_datetime_difference_in_minutes(temporary_start, event["start"])
+                event_time = self._get_datetime_difference_in_minutes(event["start"], event["end"])
+                if free_time > 0:
+                    added_entries += calendar_schedule.add_entry_within(
+                        calendar_schedule.get_entry_node_at_index(added_entries + dates_iterator),
+                        CalendarEntry(False, None, free_time)
+                    ) - 1
+                added_entries += calendar_schedule.add_entry_within(
+                    calendar_schedule.get_entry_node_at_index(added_entries + dates_iterator),
+                    CalendarEntry(True, None, event_time)
+                ) - 1
+                temporary_start = event["end"]
+        return calendar_schedule

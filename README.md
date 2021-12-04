@@ -23,7 +23,7 @@ python3 planner.py
 
 ## Known issues
 - all Google Calendar events from user main calendar are being fetched, without checking if user is attending
-- 
+- problems with GCal events which lasts more than one day
 
 
 ## License
