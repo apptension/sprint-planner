@@ -12,4 +12,4 @@ class IssuesList:
 
     @property
     def in_prioritised_order(self):
-        return sorted(self.issues, key=lambda issue : (-issue.priority, issue.estimation))
+        return sorted(self.issues, key=lambda issue: (issue.priority, issue.estimation))
