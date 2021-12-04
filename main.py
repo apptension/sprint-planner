@@ -21,7 +21,7 @@ print('\n\n')
 (proposed_schedule, stats) = propose_schedule(
     calendar,
     issues,
-    time_per_estimation_point=60,
+    # time_per_estimation_point=60,
     algorithm=Algorithm.NAIVE_GREEDY_WITH_SPLIT
     )
 
