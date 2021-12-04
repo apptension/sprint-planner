@@ -27,11 +27,6 @@ print('\n\n')
 print('Available Issues:\n')
 print_issues(mock_issues.issues)
 
-
-print('\n\n')
-print('Available Issues (Prioritised):\n')
-print_issues(mock_issues.in_prioritised_order)
-
 print('\n\n')
 
 proposed_schedule = propose_schedule(mock_calendar, mock_issues)

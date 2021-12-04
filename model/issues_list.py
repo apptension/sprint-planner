@@ -1,6 +1,5 @@
 from typing import Text
 
-
 class IssuesList:
     issues = None
 

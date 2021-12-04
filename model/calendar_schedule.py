@@ -27,9 +27,12 @@ class CalendarSchedule:
     def get_entry_node_at_index(self, index):
         return self.entries.nodeat(index)
 
+    def find_free_slot(self, min_length):
+        node_index = next((index for index, entry in enumerate(self.schedule) if entry.length > min_length), None)
+        return self.get_entry_node_at_index(node_index) if node_index != None else None
+
     def add_entry_within(self, target_node, new_entry):
         target_entry = target_node.value
-
         inserted_node = self.schedule.insertbefore(new_entry, target_node)
         shortened_target_entry = replace(target_entry, length=target_entry.length - new_entry.length)
         self.schedule.remove(target_node)
