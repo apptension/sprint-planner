@@ -1,3 +1,4 @@
+from dataclasses import replace
 from llist import sllist
 
 class CalendarSchedule:
@@ -22,3 +23,15 @@ class CalendarSchedule:
     @property
     def entries(self):
         return self.schedule
+
+    def get_entry_node_at_index(self, index):
+        return self.entries.nodeat(index)
+
+    def add_entry_within(self, target_node, new_entry):
+        target_entry = target_node.value
+
+        inserted_node = self.schedule.insertbefore(new_entry, target_node)
+        shortened_target_entry = replace(target_entry, length=target_entry.length - new_entry.length)
+        self.schedule.remove(target_node)
+        if shortened_target_entry.length > 0:
+            self.schedule.insertafter(shortened_target_entry, inserted_node)
