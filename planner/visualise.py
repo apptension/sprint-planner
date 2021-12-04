@@ -9,4 +9,8 @@ def print_calendar(calendar_enties_list):
         
         if index < len(calendar_enties_list) - 1:
             print(' | ')
-            print(' | ')
+
+
+def print_issues(issues):
+    for issue in issues:
+        print('{} | priority: {} | estimation: {}'.format(issue.name, issue.priority, issue.estimation))
