@@ -1,3 +1,4 @@
+from planner.export import export_plan_to_csv
 from planner.visualise import print_calendar, print_issues
 from planner.propose_schedule import Algorithm, propose_schedule
 from services.google_calendar import GoogleCalendarEventsClient
@@ -30,3 +31,5 @@ print('\n\n')
 
 print('Output:\n')
 print_calendar(proposed_schedule)
+
+export_plan_to_csv(proposed_schedule, filename='sprint_plan.csv')

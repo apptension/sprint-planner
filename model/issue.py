@@ -6,3 +6,6 @@ class Issue:
     name: str
     estimation: int = 1
     priority: int = 0
+
+    def __str__(self):
+        return '{} | priority: {} | estimation: {}'.format(self.name, self.priority, self.estimation)
