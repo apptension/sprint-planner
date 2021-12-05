@@ -73,6 +73,15 @@ class GoogleCalendarEventsClient:
             print("No upcoming events found.")
         result = []
         for event in events:
+            if settings.GOOGLE_ATTENDEE_EMAIL:
+                accepted = False
+                for attendee in event["attendees"]:
+                    if attendee["email"] == settings.GOOGLE_ATTENDEE_EMAIL:
+                        if attendee["responseStatus"] == "accepted":
+                            accepted = True
+                            break
+                if not accepted:
+                    continue
             start = event["start"].get("dateTime", None)
             end = event["end"].get("dateTime", None)
             if start and end:

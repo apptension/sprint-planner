@@ -54,6 +54,7 @@ python3 optimise_focus_time.py $env_file
 
 ### Google
 - `GOOGLE_CALENDAR_ID` - ID of Google Calendar you want to use, default set to `primary`
+- `GOOGLE_ATTENDEE_EMAIL` - Email address of user to check if event is accepted for them. Default value `None` which means that all events will be loaded.
 
 ### Calendar parameters
 - `WORKING_HOURS_FROM` - Your start work hour, default value `9`.
