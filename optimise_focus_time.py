@@ -36,7 +36,7 @@ def main():
     print("Planned calendar:\n")
 
     for index, entry in enumerate(schedule.schedule):
-        if entry.on_meeting:
+        if entry.busy_on_meeting:
             print(entry)
         else:
             possible_storypoints_done = time_to_storypoints(entry.length)
