@@ -1,7 +1,10 @@
 import os
+import sys
 from dotenv import load_dotenv
 
-load_dotenv()
+env_file = ".env" if len(sys.argv) == 1 else sys.argv[1]
+load_dotenv(env_file)
+print("settings")
 
 # JIRA
 JIRA_SERVER = os.getenv('JIRA_SERVER')
