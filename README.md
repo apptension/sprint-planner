@@ -66,5 +66,15 @@ python3 optimise_focus_time.py $env_file
 - `ALGORITHM` - Possible values: `NAIVE_GREEDY`, `NAIVE_GREEDY_WITH_SPLIT`, Default value: `NAIVE_GREEDY_WITH_SPLIT` 
 - `MIN_CONSIDERABLE_SLOT_TIME` - Dont plan work for slots less than `MIN_CONSIDERABLE_SLOT_TIME` minutes. Defaults to 0
 
+### Focus optimisation parameters
+- `FOCUS_TIME_CALENDAR_START` - Start date for focus optimisation in `%Y-%m-%dT%H:%M:%S.%fZ` format (i.e. 2021-12-10T00:00:00.000Z)
+- `FOCUS_TIME_CALENDAR_END` - End date for focus optimisation in `%Y-%m-%dT%H:%M:%S.%fZ` format (i.e. 2021-12-10T00:00:00.000Z)
+- `FOCUS_TIME_STORY_POINTS_CAPACITY` - Total Story Points to use in `<FOCUS_TIME_CALENDAR_START, FOCUS_TIME_CALENDAR_END>` range
+
+## Future improvements
+- [ ] Introduce more complex algorithms to plan the sprint
+- [ ] Support for planning multiple developers (whole team) at once
+- [ ] Consider time cost for regaining focus after each meeting
+
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
