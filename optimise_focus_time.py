@@ -58,18 +58,22 @@ def main():
                 print(entry)
         print(" | ")
 
-    print("\n\n")
-    print("Summary:")
-    print("\n")
-    print("Time slots without issue (< 1 SP time slot): {}".format(sized_issues_counts[0]))
-    for sp_value in allowed_storypoints[1:]:
-        sp_value_index = allowed_storypoints.index(sp_value)
-        print("Possible {} SP issues: {}".format(sp_value, sized_issues_counts[sp_value_index]))
-
     exporter = CsvExport(
         "focus_optimisation", CalendarPlannerAlgorithm("raw", schedule, IssuesList([]), expected_time_per_storypoint)
     )
     exporter.export_schedule()
+    exporter.export_empty_rows()
+
+    print("\n\n")
+    print("Summary:")
+    print("\n")
+    print("Time slots without issue (< 1 SP time slot): {}".format(sized_issues_counts[0]))
+    exporter.writer.writerow(["Time slots without issue (< 1 SP time slot)", sized_issues_counts[0]])
+
+    for sp_value in allowed_storypoints[1:]:
+        sp_value_index = allowed_storypoints.index(sp_value)
+        print("Possible {} SP issues: {}".format(sp_value, sized_issues_counts[sp_value_index]))
+        exporter.writer.writerow(["Possible {} SP issues".format(sp_value), sized_issues_counts[sp_value_index]])
 
 
 if __name__ == "__main__":
