@@ -62,6 +62,9 @@ python3 optimise_focus_time.py $env_file
 - `WORKING_HOURS_TO` - Your end work hour, default value `17`.
 - `WORKING_DAYS_START_WEEKDAY` - First day of working week, default value `0` which means `Monday`.
 - `WORKING_DAYS_END_WEEKDAY` - Last day of working week, default value `5` which means `Friday`.
+- `WITH_BREAK` - Include break timeslot each day. Default value `True`
+- `BREAK_TIME` - Length of break in minutes. Default value `30`
+- `BREAK_AFTER` - Minimum hour in day for the break. Default value `13`
 
 ### Algorithm parameters
 - `TIME_PER_ESTIMATION_POINT` - How long it should take to do one estimation point. Default value `None` which means that value will be counted proportionally to free time.
