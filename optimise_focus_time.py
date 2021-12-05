@@ -1,3 +1,7 @@
+from dataclasses import replace
+from model.issues_list import IssuesList
+from model.issue import Issue
+from planner.algorithm.calendar_planner_algorithm import CalendarPlannerAlgorithm
 import settings
 import math
 from datetime import datetime
@@ -31,7 +35,7 @@ def main():
     print("\n\n")
     print("Planned calendar:\n")
 
-    for entry in schedule.schedule:
+    for index, entry in enumerate(schedule.schedule):
         if entry.on_meeting:
             print(entry)
         else:
@@ -40,6 +44,9 @@ def main():
             sized_issues_counts[sp_value_index] += 1
 
             if possible_storypoints_done > 0:
+                schedule.get_entry_node_at_index(index).value = replace(
+                    entry, issue=Issue("-", "{} SP issue".format(possible_storypoints_done), possible_storypoints_done)
+                )
                 print(
                     "{} -- time for {} SP issue (~{} minutes)".format(
                         entry,
@@ -58,6 +65,11 @@ def main():
     for sp_value in allowed_storypoints[1:]:
         sp_value_index = allowed_storypoints.index(sp_value)
         print("Possible {} SP issues: {}".format(sp_value, sized_issues_counts[sp_value_index]))
+
+    exporter = CsvExport(
+        "focus_optimisation", CalendarPlannerAlgorithm("raw", schedule, IssuesList([]), expected_time_per_storypoint)
+    )
+    exporter.export_schedule()
 
 
 if __name__ == "__main__":

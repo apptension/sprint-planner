@@ -4,7 +4,7 @@ Sprint planner is a Python script for planning your Jira tasks based on your cal
 
 ## Installation
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
+Use the package manager [pip](https://pip.pypa.io/en/stable/) to install requirements.
 
 ```bash
 python -m pip install -r requirements.txt
@@ -17,6 +17,7 @@ For Google Calendar integration:
 
 For Jira integration:
 
+Set `JIRA_TOKEN`, `JIRA_SERVER` , `JIRA_USER` with proper values. See `Environment variables` section for more details.
 
 ## Usage
 
