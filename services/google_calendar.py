@@ -127,18 +127,34 @@ class GoogleCalendarEventsClient:
                 event_time = self._get_datetime_difference_in_minutes(event["start"], event["end"])
                 if free_time > 0:
                     added_entries += (
-                        calendar_schedule.add_entry_within(
+                        len(calendar_schedule.add_entry_within(
                             calendar_schedule.get_entry_node_at_index(added_entries + dates_iterator),
                             CalendarEntry(False, None, free_time),
-                        )
+                        ))
                         - 1
                     )
                 added_entries += (
-                    calendar_schedule.add_entry_within(
+                    len(calendar_schedule.add_entry_within(
                         calendar_schedule.get_entry_node_at_index(added_entries + dates_iterator),
                         CalendarEntry(True, None, event_time),
-                    )
+                    ))
                     - 1
                 )
                 temporary_start = event["end"]
+        if settings.WITH_BREAK:
+            day_length = (working_hours_to - working_hours_from) * 60
+            break_time = settings.BREAK_TIME
+            break_after = settings.BREAK_AFTER
+            for index, _ in enumerate(dates):
+                start_offset = (break_after - working_hours_from) * 60 + index * day_length
+                end_offset = day_length * (index + 1)
+                entry_node, entry_end_position = calendar_schedule.find_free_slot_between(break_time, start_offset, end_offset)
+                entry_start_position = entry_end_position - entry_node.value.length
+                if entry_node:
+                    break_entry = CalendarEntry(True, None, break_time)
+                    if entry_start_position < start_offset:
+                        calendar_schedule.add_entry_inside(entry_node, break_entry, start_offset - entry_start_position)
+                    else:
+                        calendar_schedule.add_entry_within(entry_node, break_entry)
+
         return calendar_schedule

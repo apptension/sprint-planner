@@ -16,6 +16,7 @@ def main():
     )
     calendar = google_event_client.get_calendar_list()
 
+
     print("Available calendar:\n")
     print_calendar(calendar)
 

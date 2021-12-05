@@ -2,6 +2,8 @@ import settings
 from dataclasses import dataclass, replace
 from llist import sllist
 
+from model.calendar_entry import CalendarEntry
+
 
 class CalendarSchedule:
     schedule = None
@@ -39,7 +41,20 @@ class CalendarSchedule:
     def get_entry_node_at_index(self, index):
         return self.entries.nodeat(index)
 
-    # finds available schedule entry with at least <min_length> lenght
+    # finds available schedule entry with at least <min_length> length between given offsets
+    # returns available entry node with position
+    def find_free_slot_between(self, min_length, start_offset, end_offset):
+        length_position = 0
+        node_index = None
+        for index, entry in enumerate(self.schedule):
+            length_position += entry.length
+            if end_offset >= length_position >= start_offset and length_position - start_offset >= min_length:
+                if entry.length >= min_length and not entry.busy:
+                    node_index = index
+                    break
+        return (self.get_entry_node_at_index(node_index), length_position) if node_index else (None, None)
+
+    # finds available schedule entry with at least <min_length> length
     # returns available entry node
     def find_free_slot(self, min_length):
         node_index = next(
@@ -88,6 +103,13 @@ class CalendarSchedule:
         shortened_target_entry = replace(target_entry, length=target_entry.length - new_entry.length)
         self.schedule.remove(target_node)
         if shortened_target_entry.length > 0:
-            self.schedule.insertafter(shortened_target_entry, inserted_node)
-            return 2
-        return 1
+            shortened_node = self.schedule.insertafter(shortened_target_entry, inserted_node)
+            return inserted_node, shortened_node
+        return (inserted_node,)
+
+    def add_entry_inside(self, target_node, new_entry, offset):
+        inserted_node, shortened_node = self.add_entry_within(
+            target_node,
+            CalendarEntry(target_node.value.on_meeting, target_node.value.issue, offset)
+        )
+        self.add_entry_within(shortened_node, new_entry)
