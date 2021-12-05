@@ -7,7 +7,8 @@ Sprint planner is a Python script for planning your Jira tasks based on your cal
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install requirements.
 
 ```bash
-python -m pip install -r requirements.txt
+python3 -m venv .venv
+python3 -m pip install -r requirements.txt
 ```
 For Google Calendar integration:
 
