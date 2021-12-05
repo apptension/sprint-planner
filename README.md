@@ -39,7 +39,6 @@ python3 optimise_focus_time.py $env_file
 `$env_file` is optional parameter to be used if there is another path to env file than default `.env`
 
 ## Known issues
-- all Google Calendar events from user main calendar are being fetched, without checking if user is attending
 - problems with GCal events which lasts more than one day
 - problems might occurs if Google Calendar events starts before work hours or end after work hours
 
