@@ -20,8 +20,19 @@ For Jira integration:
 
 ## Usage
 
+### Plan sprint work based on JIRA tickets and available calendar time
+It generates sprint plan based on your calendar and JIRA tickets.
+
 ```python
-python3 main.py $env_file
+python3 plan_sprint.py $env_file
+```
+`$env_file` is optional parameter to be used if there is another path to env file than default `.env`
+
+### Optimise focus time based on your calendar
+It generates optimised list of workload you can do, without being distracted by any meeting during an issue work.
+
+```python
+python3 optimise_focus_time.py $env_file
 ```
 `$env_file` is optional parameter to be used if there is another path to env file than default `.env`
 

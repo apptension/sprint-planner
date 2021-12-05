@@ -84,7 +84,7 @@ class GoogleCalendarEventsClient:
                     result.append({"start": start, "end": end, "duration": duration})
         return result
 
-    def get_calendar_list(self):
+    def get_calendar_list(self) -> CalendarSchedule:
         def daterange(start_date, end_date):
             for n in range(int((end_date - start_date).days) + 1):
                 yield start_date + timedelta(n)
