@@ -27,13 +27,6 @@ class GreedyNaiveWithSplit(CalendarPlannerAlgorithm):
             if matching_slots:
                 self.schedule.spread_entry_over(matching_slots, issue_calendar_entry)
 
-            print('\n\n')
-            print('Algorithm step #{}'.format(step))
-            print('Planned {} ({} minutes)'.format(issue.name, required_issue_time))
-            print('\n')
-            print('Schedule after step #{}'.format(step))
-            print_calendar(self.schedule)
-
             step+=1
 
         return (self.schedule, self.stats)
