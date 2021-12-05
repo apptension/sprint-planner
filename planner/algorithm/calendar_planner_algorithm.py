@@ -8,7 +8,7 @@ class CalendarPlannerAlgorithm:
         self.name = name
         self.schedule = schedule
         self.issues = issues
-        self.expected_time_per_estimation_point = time_per_estimation_point or math.ceil(self.schedule.total_free_time / self.issues.total_estimation)
+        self.expected_time_per_estimation_point = time_per_estimation_point or math.floor(self.schedule.total_free_time / self.issues.total_estimation)
 
     def is_issue_scheduled(self, issue):
         return next((entry for entry in self.schedule.schedule if entry.issue and entry.issue.id == issue.id), None) != None
