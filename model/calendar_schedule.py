@@ -109,7 +109,6 @@ class CalendarSchedule:
 
     def add_entry_inside(self, target_node, new_entry, offset):
         inserted_node, shortened_node = self.add_entry_within(
-            target_node,
-            CalendarEntry(target_node.value.on_meeting, target_node.value.issue, offset)
+            target_node, CalendarEntry(target_node.value.on_meeting, target_node.value.issue, offset)
         )
         self.add_entry_within(shortened_node, new_entry)
