@@ -1,3 +1,4 @@
+import settings
 from dataclasses import dataclass, replace
 from llist import sllist
 
@@ -57,7 +58,7 @@ class CalendarSchedule:
             if entry.busy_on_issue:
                 slots = []
                 time_to_distribute = min_length
-            elif not entry.busy_on_meeting:
+            elif not entry.busy_on_meeting and not entry.too_short:
                 slots.append(self.get_entry_node_at_index(index))
                 time_to_distribute -= entry.length
 

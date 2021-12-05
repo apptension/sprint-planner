@@ -19,10 +19,6 @@ def main():
     print("Available calendar:\n")
     print_calendar(calendar)
 
-    print("\n\n")
-    print("Available Issues:\n")
-    print_issues(issues.issues)
-
     result = propose_schedule(
         calendar,
         issues,

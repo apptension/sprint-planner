@@ -110,6 +110,7 @@ class CalendarPlannerAlgorithm:
         return None
 
     def run(self):
+        print("\n\n")
         print('Running "{}"\n'.format(self.name))
 
         print("\n\n")
@@ -120,14 +121,3 @@ class CalendarPlannerAlgorithm:
         )
 
         print("\n\n")
-
-        print(
-            "Total issues estimation: {} SP / {} minutes".format(
-                self.issues.total_estimation,
-                self.issues.total_estimation * self.expected_time_per_estimation_point,
-            )
-        )
-        print("Total calendar time: {} minutes".format(self.schedule.total_time))
-        print("Total calendar free time: {} minutes".format(self.schedule.total_free_time))
-        print("Total calendar busy time: {} minutes".format(self.schedule.total_busy_time))
-        print("Expected time per estimation point: {} minutes".format(self.expected_time_per_estimation_point))

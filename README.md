@@ -64,6 +64,7 @@ python3 optimise_focus_time.py $env_file
 ### Algorithm parameters
 - `TIME_PER_ESTIMATION_POINT` - How long it should take to do one estimation point. Default value `None` which means that value will be counted proportionally to free time.
 - `ALGORITHM` - Possible values: `NAIVE_GREEDY`, `NAIVE_GREEDY_WITH_SPLIT`, Default value: `NAIVE_GREEDY_WITH_SPLIT` 
+- `MIN_CONSIDERABLE_SLOT_TIME` - Dont plan work for slots less than `MIN_CONSIDERABLE_SLOT_TIME` minutes. Defaults to 0
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
