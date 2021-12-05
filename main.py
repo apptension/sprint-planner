@@ -1,3 +1,4 @@
+import settings
 from planner.export import export_plan_to_csv
 from planner.visualise import print_calendar, print_issues
 from planner.propose_schedule import Algorithm, propose_schedule
@@ -23,8 +24,8 @@ print('\n\n')
 (proposed_schedule, stats) = propose_schedule(
     calendar,
     issues,
-    # time_per_estimation_point=60,
-    algorithm=Algorithm.NAIVE_GREEDY_WITH_SPLIT
+    time_per_estimation_point=settings.TIME_PER_ESTIMATION_POINT,
+    algorithm=Algorithm[settings.ALGORITHM]
     )
 
 print('\n\n')

@@ -6,6 +6,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 
+import settings
 from model.calendar_schedule import CalendarSchedule
 from model.calendar_entry import CalendarEntry
 
@@ -51,7 +52,7 @@ class GoogleCalendarEventsClient:
 
     def get_events(self):
         service = self._get_calendar_service()
-        events_result = service.events().list(calendarId='primary',
+        events_result = service.events().list(calendarId=settings.GOOGLE_CALENDAR_ID,
                                               timeMin=self.start_date.isoformat() + 'Z',
                                               timeMax=self.end_date.isoformat() + 'Z',
                                               singleEvents=True,
@@ -74,15 +75,20 @@ class GoogleCalendarEventsClient:
                     result.append({"start": start, "end": end, "duration": duration})
         return result
 
-    def get_calendar_list(self, working_hours_from=9, working_hours_to=17, working_days_from=0, working_days_to=4):
+    def get_calendar_list(self):
         def daterange(start_date, end_date):
             for n in range(int((end_date - start_date).days) + 1):
                 yield start_date + timedelta(n)
 
+        working_hours_from = int(settings.WORKING_HOURS_FROM)
+        working_hours_to = int(settings.WORKING_HOURS_TO)
+        working_days_from = int(settings.WORKING_DAYS_START_WEEKDAY)
+        working_days_to = int(settings.WORKING_DAYS_END_WEEKDAY)
         start_date = self.start_date
         end_date = self.end_date
         calendar_entries = []
         dates = []
+        # Creation of empty calendar schedule, empty blocks which lasts working hours difference for each working day.
         for single_date in daterange(start_date, end_date):
             weekday = single_date.weekday()
             if working_days_from <= weekday <= working_days_to:
@@ -98,6 +104,7 @@ class GoogleCalendarEventsClient:
         if not calendar_entries:
             return calendar_schedule
 
+        # Filling empty blocks with events from Google Calendar
         events = self.get_events()
         added_entries = 0
         dates_iterator = 0

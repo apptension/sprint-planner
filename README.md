@@ -24,22 +24,30 @@ python3 planner.py
 ## Known issues
 - all Google Calendar events from user main calendar are being fetched, without checking if user is attending
 - problems with GCal events which lasts more than one day
+- problems might occurs if Google Calendar events starts before work hours or end after work hours
 
 ## Environment variables
 ### Jira
 - `JIRA_TOKEN` - User authorization token, can be generated [here](https://id.atlassian.com/manage-profile/security/api-tokens).
-
 - `JIRA_SERVER` - Your Jira server name i.e. https://organization.atlassian.net/.
-
 - `JIRA_USER` - Your user email.
-
-- `JIRA_PROJECT` - Project ID to fill default JQL query. Not required if you set `JIRA_ISSUES_JQL` variable.  
-
+- `JIRA_PROJECT` - Project ID to fill default JQL query. Not required if you set `JIRA_ISSUES_JQL` variable.
 - `JIRA_ESTIMATE_FIELD` - Name of the field with estimation points, default value: `timeoriginalestimate`.
-
 - `JIRA_ISSUES_JQL` - Custom JQL query for fetching issues from Jira.
-
 - `JIRA_PRIORITY_ORDER` - Set to DESC if your most important tasks has greater priority id than less important ones.
+
+### Google
+- `GOOGLE_CALENDAR_ID` - ID of Google Calendar you want to use, default set to `primary`
+
+### Calendar parameters
+- `WORKING_HOURS_FROM` - Your start work hour, default value `9`.
+- `WORKING_HOURS_TO` - Your end work hour, default value `17`.
+- `WORKING_DAYS_START_WEEKDAY` - First day of working week, default value `0` which means `Monday`.
+- `WORKING_DAYS_END_WEEKDAY` - Last day of working week, default value `5` which means `Friday`.
+
+### Algorithm parameters
+- `TIME_PER_ESTIMATION_POINT` - How long it should take to do one estimation point. Default value `None` which means that value will be counted proportionally to free time.
+- `ALGORITHM` - Possible values: `NAIVE_GREEDY`, `NAIVE_GREEDY_WITH_SPLIT`, Default value: `NAIVE_GREEDY_WITH_SPLIT` 
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
