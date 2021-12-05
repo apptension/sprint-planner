@@ -1,5 +1,5 @@
 import settings
-from planner.export import export_plan_to_csv
+from planner.export import CsvExport
 from planner.visualise import print_calendar, print_issues
 from planner.propose_schedule import Algorithm, propose_schedule
 from services.google_calendar import GoogleCalendarEventsClient
@@ -21,22 +21,20 @@ def main():
     print('Available Issues:\n')
     print_issues(issues.issues)
 
-    print('\n\n')
-
-    (proposed_schedule, stats) = propose_schedule(
+    result = propose_schedule(
         calendar,
         issues,
         time_per_estimation_point=settings.TIME_PER_ESTIMATION_POINT,
         algorithm=Algorithm[settings.ALGORITHM]
-        )
+    )
 
-    print('\n\n')
+    result.print_stats()
 
     print('Output:\n')
-    print_calendar(proposed_schedule)
+    print_calendar(result.schedule)
 
-    export_plan_to_csv(proposed_schedule, filename='sprint_plan.csv')
-
+    exporter = CsvExport('sprint_plan', result)
+    exporter.export_all()
 
 if __name__ == '__main__':
     main()

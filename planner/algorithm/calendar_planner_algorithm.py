@@ -33,8 +33,7 @@ class CalendarPlannerAlgorithm:
     def scheduled_sprint_coverage(self):
         return self.expected_time_to_finish_scheduled_issues / (self.issues.total_estimation * self.expected_time_per_estimation_point)
 
-    @property
-    def stats(self):
+    def print_stats(self):
         print('\n\n')
         print('Stats:')
         

@@ -29,4 +29,4 @@ class GreedyNaive(CalendarPlannerAlgorithm):
 
             step+=1
 
-        return (self.schedule, self.stats)
+        return self
