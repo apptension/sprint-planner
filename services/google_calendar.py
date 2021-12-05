@@ -26,10 +26,10 @@ class GoogleCalendarEventsClient:
                 hour=0, minute=0, second=0, microsecond=0, tzinfo=None
             )
         if not end_date:
-            self.end_date = self.start_date.replace(hour=23, minute=59, second=59, microsecond=0) + timedelta(days=3)
+            self.end_date = self.start_date.replace(hour=23, minute=59, second=59, microsecond=0) + timedelta(days=14)
         else:
             self.end_date = datetime.strptime(end_date, datetime_format).replace(
-                hour=0, minute=0, second=0, microsecond=0, tzinfo=None
+                hour=23, minute=59, second=59, microsecond=0, tzinfo=None
             )
         self.authenticate()
 
@@ -151,7 +151,7 @@ class GoogleCalendarEventsClient:
                 entry_node, entry_end_position = calendar_schedule.find_free_slot_between(break_time, start_offset, end_offset)
                 entry_start_position = entry_end_position - entry_node.value.length
                 if entry_node:
-                    break_entry = CalendarEntry(True, None, break_time)
+                    break_entry = CalendarEntry(True, None, break_time, True)
                     if entry_start_position < start_offset:
                         calendar_schedule.add_entry_inside(entry_node, break_entry, start_offset - entry_start_position)
                     else:

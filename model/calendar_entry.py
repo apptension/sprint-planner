@@ -8,6 +8,7 @@ class CalendarEntry:
     on_meeting: bool
     issue: Issue
     length: int = 15
+    on_break: bool = False
 
     @property
     def too_short(self):
@@ -15,11 +16,11 @@ class CalendarEntry:
 
     @property
     def busy(self) -> bool:
-        return self.on_meeting or self.issue or self.too_short
+        return self.on_meeting or self.issue or self.too_short or self.on_break
 
     @property
     def busy_on_meeting(self) -> bool:
-        return self.on_meeting
+        return self.on_meeting or self.on_break
 
     @property
     def busy_on_issue(self) -> bool:
@@ -28,6 +29,9 @@ class CalendarEntry:
     def __str__(self):
         if self.too_short and not self.on_meeting:
             return "Skipped {} minutes, slot is to short".format(self.length)
+
+        if self.on_break:
+            return "Having a break for {} minutes".format(self.length)
 
         blockTypeLabel = "Busy" if self.busy else "Free"
         blockDurationLabel = "{} minutes".format(self.length)
