@@ -15,19 +15,14 @@ class CalendarPlannerAlgorithm:
         self.name = name
         self.schedule = schedule
         self.issues = issues
-        self.expected_time_per_estimation_point = (
-            time_per_estimation_point
-            or math.floor(self.schedule.total_free_time / self.issues.total_estimation)
+        self.expected_time_per_estimation_point = time_per_estimation_point or math.floor(
+            self.schedule.total_free_time / self.issues.total_estimation
         )
 
     def is_issue_scheduled(self, issue):
         return (
             next(
-                (
-                    entry
-                    for entry in self.schedule.schedule
-                    if entry.issue and entry.issue.id == issue.id
-                ),
+                (entry for entry in self.schedule.schedule if entry.issue and entry.issue.id == issue.id),
                 None,
             )
             != None
@@ -39,23 +34,15 @@ class CalendarPlannerAlgorithm:
 
     @property
     def expected_time_to_finish_scheduled_issues(self):
-        return sum(
-            entry.estimation * self.expected_time_per_estimation_point
-            for entry in self.scheduled_issues
-        )
+        return sum(entry.estimation * self.expected_time_per_estimation_point for entry in self.scheduled_issues)
 
     @property
     def not_scheduled_issues(self):
-        return filter(
-            lambda issue: not self.is_issue_scheduled(issue), self.issues.issues
-        )
+        return filter(lambda issue: not self.is_issue_scheduled(issue), self.issues.issues)
 
     @property
     def expected_time_to_finish_not_scheduled_issues(self):
-        return sum(
-            entry.estimation * self.expected_time_per_estimation_point
-            for entry in self.not_scheduled_issues
-        )
+        return sum(entry.estimation * self.expected_time_per_estimation_point for entry in self.not_scheduled_issues)
 
     @property
     def scheduled_sprint_coverage(self):
@@ -86,39 +73,23 @@ class CalendarPlannerAlgorithm:
                 round(100 * self.schedule.total_free_time / self.schedule.total_time),
             )
         )
-        print(
-            "Expected time per estimation point: {} minutes".format(
-                self.expected_time_per_estimation_point
-            )
-        )
+        print("Expected time per estimation point: {} minutes".format(self.expected_time_per_estimation_point))
         print(
             "Expected time to finish not planned issues: {} minutes".format(
                 self.expected_time_to_finish_not_scheduled_issues
             )
         )
-        print(
-            "Scheduled sprint story points coverage: {}%".format(
-                round(self.scheduled_sprint_coverage * 100)
-            )
-        )
+        print("Scheduled sprint story points coverage: {}%".format(round(self.scheduled_sprint_coverage * 100)))
         print(
             "Total time scheduled on issues: {} minutes / {}%".format(
                 self.schedule.total_time_spent_on_issues,
-                round(
-                    100
-                    * self.schedule.total_time_spent_on_issues
-                    / self.schedule.total_time
-                ),
+                round(100 * self.schedule.total_time_spent_on_issues / self.schedule.total_time),
             )
         )
         print(
             "Total time scheduled on meetings: {} minutes / {}%".format(
                 self.schedule.total_time_spent_on_meetings,
-                round(
-                    100
-                    * self.schedule.total_time_spent_on_meetings
-                    / self.schedule.total_time
-                ),
+                round(100 * self.schedule.total_time_spent_on_meetings / self.schedule.total_time),
             )
         )
 
@@ -157,14 +128,6 @@ class CalendarPlannerAlgorithm:
             )
         )
         print("Total calendar time: {} minutes".format(self.schedule.total_time))
-        print(
-            "Total calendar free time: {} minutes".format(self.schedule.total_free_time)
-        )
-        print(
-            "Total calendar busy time: {} minutes".format(self.schedule.total_busy_time)
-        )
-        print(
-            "Expected time per estimation point: {} minutes".format(
-                self.expected_time_per_estimation_point
-            )
-        )
+        print("Total calendar free time: {} minutes".format(self.schedule.total_free_time))
+        print("Total calendar busy time: {} minutes".format(self.schedule.total_busy_time))
+        print("Expected time per estimation point: {} minutes".format(self.expected_time_per_estimation_point))

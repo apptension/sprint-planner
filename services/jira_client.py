@@ -37,6 +37,4 @@ class JiraClient:
         return IssuesList(issues)
 
     def get_current_sprint(self) -> Sprint:
-        return self.jira.sprints(
-            self.jira.boards(projectKeyOrID=settings.JIRA_PROJECT)[0].id, state="active"
-        )[0]
+        return self.jira.sprints(self.jira.boards(projectKeyOrID=settings.JIRA_PROJECT)[0].id, state="active")[0]

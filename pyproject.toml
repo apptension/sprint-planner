@@ -1,0 +1,4 @@
+[tool.black]
+line-length = 120
+exclude = "/(.git|.tox|migrations|libs|docs|data|.venv)/"
+target-versions = "py38"

@@ -13,9 +13,7 @@ JIRA_PROJECT = os.getenv("JIRA_PROJECT")
 JIRA_ESTIMATE_FIELD = os.getenv("JIRA_ESTIMATE_FIELD", "timeoriginalestimate")
 JIRA_ISSUES_JQL = os.getenv(
     "JIRA_ISSUES_JQL",
-    "project="
-    + JIRA_PROJECT
-    + " and sprint in openSprints() AND assignee = currentUser()",
+    "project=" + JIRA_PROJECT + " and sprint in openSprints() AND assignee = currentUser()",
 )
 JIRA_PRIORITY_ORDER = os.getenv("JIRA_PRIORITY_ORDER", "ASC")
 
@@ -31,6 +29,4 @@ WORKING_DAYS_END_WEEKDAY = os.getenv("WORKING_DAYS_START_WEEKDAY", 4)
 
 # ALGORITHM PARAMETERS
 TIME_PER_ESTIMATION_POINT = os.getenv("TIME_PER_ESTIMATION_POINT", None)
-ALGORITHM = os.getenv(
-    "ALGORITHM", "NAIVE_GREEDY_WITH_SPLIT"
-)  # NAIVE_GREEDY, NAIVE_GREEDY_WITH_SPLIT
+ALGORITHM = os.getenv("ALGORITHM", "NAIVE_GREEDY_WITH_SPLIT")  # NAIVE_GREEDY, NAIVE_GREEDY_WITH_SPLIT

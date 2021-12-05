@@ -20,17 +20,13 @@ class GoogleCalendarEventsClient:
     def __init__(self, start_date=None, end_date=None):
         datetime_format = "%Y-%m-%dT%H:%M:%S.%fZ"
         if not start_date:
-            self.start_date = datetime.utcnow().replace(
-                hour=0, minute=0, second=0, microsecond=0
-            )
+            self.start_date = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
         else:
             self.start_date = datetime.strptime(start_date, datetime_format).replace(
                 hour=0, minute=0, second=0, microsecond=0, tzinfo=None
             )
         if not end_date:
-            self.end_date = self.start_date.replace(
-                hour=23, minute=59, second=59, microsecond=0
-            ) + timedelta(days=3)
+            self.end_date = self.start_date.replace(hour=23, minute=59, second=59, microsecond=0) + timedelta(days=3)
         else:
             self.end_date = datetime.strptime(end_date, datetime_format).replace(
                 hour=0, minute=0, second=0, microsecond=0, tzinfo=None
@@ -42,17 +38,13 @@ class GoogleCalendarEventsClient:
 
     def authenticate(self):
         if os.path.exists("token.json"):
-            self.creds = Credentials.from_authorized_user_file(
-                "token.json", self.SCOPES
-            )
+            self.creds = Credentials.from_authorized_user_file("token.json", self.SCOPES)
         # If there are no (valid) credentials available, let the user log in.
         if not self.creds or not self.creds.valid:
             if self.creds and self.creds.expired and self.creds.refresh_token:
                 self.creds.refresh(Request())
             else:
-                flow = InstalledAppFlow.from_client_secrets_file(
-                    "credentials.json", self.SCOPES
-                )
+                flow = InstalledAppFlow.from_client_secrets_file("credentials.json", self.SCOPES)
                 self.creds = flow.run_local_server(port=0)
             # Save the credentials for the next run
             with open("token.json", "w") as token:
@@ -112,19 +104,11 @@ class GoogleCalendarEventsClient:
                 dates.append(
                     {
                         "date": single_date.date(),
-                        "start": single_date.replace(
-                            hour=working_hours_from, minute=0, second=0, microsecond=0
-                        ),
-                        "end": single_date.replace(
-                            hour=working_hours_to, minute=0, second=0, microsecond=0
-                        ),
+                        "start": single_date.replace(hour=working_hours_from, minute=0, second=0, microsecond=0),
+                        "end": single_date.replace(hour=working_hours_to, minute=0, second=0, microsecond=0),
                     }
                 )
-                calendar_entries.append(
-                    CalendarEntry(
-                        False, None, ((working_hours_to - working_hours_from) * 60)
-                    )
-                )
+                calendar_entries.append(CalendarEntry(False, None, ((working_hours_to - working_hours_from) * 60)))
         calendar_schedule = CalendarSchedule(calendar_entries)
         if not calendar_entries:
             return calendar_schedule
@@ -139,27 +123,19 @@ class GoogleCalendarEventsClient:
                 dates_iterator += 1
                 temporary_start = dates[dates_iterator]["start"]
             if temporary_start <= event["start"] <= dates[dates_iterator]["end"]:
-                free_time = self._get_datetime_difference_in_minutes(
-                    temporary_start, event["start"]
-                )
-                event_time = self._get_datetime_difference_in_minutes(
-                    event["start"], event["end"]
-                )
+                free_time = self._get_datetime_difference_in_minutes(temporary_start, event["start"])
+                event_time = self._get_datetime_difference_in_minutes(event["start"], event["end"])
                 if free_time > 0:
                     added_entries += (
                         calendar_schedule.add_entry_within(
-                            calendar_schedule.get_entry_node_at_index(
-                                added_entries + dates_iterator
-                            ),
+                            calendar_schedule.get_entry_node_at_index(added_entries + dates_iterator),
                             CalendarEntry(False, None, free_time),
                         )
                         - 1
                     )
                 added_entries += (
                     calendar_schedule.add_entry_within(
-                        calendar_schedule.get_entry_node_at_index(
-                            added_entries + dates_iterator
-                        ),
+                        calendar_schedule.get_entry_node_at_index(added_entries + dates_iterator),
                         CalendarEntry(True, None, event_time),
                     )
                     - 1

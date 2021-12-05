@@ -16,9 +16,7 @@ class IssuesList:
         return sorted(
             self.issues,
             key=lambda issue: (
-                issue.priority
-                if settings.JIRA_PRIORITY_ORDER == "ASC"
-                else -issue.priority,
+                issue.priority if settings.JIRA_PRIORITY_ORDER == "ASC" else -issue.priority,
                 issue.estimation,
             ),
         )

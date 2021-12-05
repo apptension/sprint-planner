@@ -34,14 +34,11 @@ class CsvExport:
     def export_schedule(self):
         (schedule_days, days_count, max_day_entries) = self.split_plan_into_days()
 
-        self.writer.writerow(
-            "Day {}".format(index + 1) for index, entry in enumerate(schedule_days)
-        )
+        self.writer.writerow("Day {}".format(index + 1) for index, entry in enumerate(schedule_days))
 
         for day_entry_index in range(max_day_entries):
             self.writer.writerow(
-                str(day[day_entry_index]) if day_entry_index < len(day) else ""
-                for day in schedule_days
+                str(day[day_entry_index]) if day_entry_index < len(day) else "" for day in schedule_days
             )
 
     def export_stats(self):
@@ -55,8 +52,7 @@ class CsvExport:
         self.writer.writerow(
             [
                 "Total issues estimation [minutes]",
-                self.plan.issues.total_estimation
-                * self.plan.expected_time_per_estimation_point,
+                self.plan.issues.total_estimation * self.plan.expected_time_per_estimation_point,
             ]
         )
 
@@ -77,26 +73,16 @@ class CsvExport:
         self.writer.writerow(
             [
                 "Scheduled calendar time [%]",
-                round(
-                    100
-                    * self.plan.schedule.total_busy_time
-                    / self.plan.schedule.total_time
-                ),
+                round(100 * self.plan.schedule.total_busy_time / self.plan.schedule.total_time),
             ]
         )
 
-        self.writer.writerow(
-            ["Remaining calendar time [minutes]", self.plan.schedule.total_free_time]
-        )
+        self.writer.writerow(["Remaining calendar time [minutes]", self.plan.schedule.total_free_time])
 
         self.writer.writerow(
             [
                 "Remaining calendar time [%]",
-                round(
-                    100
-                    * self.plan.schedule.total_free_time
-                    / self.plan.schedule.total_time
-                ),
+                round(100 * self.plan.schedule.total_free_time / self.plan.schedule.total_time),
             ]
         )
 
@@ -131,11 +117,7 @@ class CsvExport:
         self.writer.writerow(
             [
                 "Total time scheduled on issues [%]",
-                round(
-                    100
-                    * self.plan.schedule.total_time_spent_on_issues
-                    / self.plan.schedule.total_time
-                ),
+                round(100 * self.plan.schedule.total_time_spent_on_issues / self.plan.schedule.total_time),
             ]
         )
 
@@ -149,18 +131,12 @@ class CsvExport:
         self.writer.writerow(
             [
                 "Total time scheduled on meetings [%]",
-                round(
-                    100
-                    * self.plan.schedule.total_time_spent_on_meetings
-                    / self.plan.schedule.total_time
-                ),
+                round(100 * self.plan.schedule.total_time_spent_on_meetings / self.plan.schedule.total_time),
             ]
         )
 
     def export_issues(self, issues):
-        self.writer.writerow(
-            ["issue", "priority", "estimation [SP]", "expected time spent [minutes]"]
-        )
+        self.writer.writerow(["issue", "priority", "estimation [SP]", "expected time spent [minutes]"])
 
         for issue in issues:
             self.writer.writerow(

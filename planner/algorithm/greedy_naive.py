@@ -31,13 +31,9 @@ class GreedyNaive(CalendarPlannerAlgorithm):
 
         while self.issues_queue.size > 0:
             issue = self.pop_next_issue()
-            required_issue_time = (
-                issue.estimation * self.expected_time_per_estimation_point
-            )
+            required_issue_time = issue.estimation * self.expected_time_per_estimation_point
             matching_slot = self.schedule.find_free_slot(required_issue_time)
-            issue_calendar_entry = CalendarEntry(
-                on_meeting=False, issue=issue, length=required_issue_time
-            )
+            issue_calendar_entry = CalendarEntry(on_meeting=False, issue=issue, length=required_issue_time)
 
             if matching_slot:
                 self.schedule.add_entry_within(matching_slot, issue_calendar_entry)

@@ -24,10 +24,6 @@ class CalendarEntry:
         blockTypeLabel = "Busy" if self.busy else "Free"
         blockDurationLabel = "{} minutes".format(self.length)
 
-        busyReasonLabel = (
-            "(working on {})".format(self.issue.name) if self.issue else "(on meeting)"
-        )
+        busyReasonLabel = "(working on {})".format(self.issue.name) if self.issue else "(on meeting)"
 
-        return "{} for {} {}".format(
-            blockTypeLabel, blockDurationLabel, busyReasonLabel if self.busy else ""
-        )
+        return "{} for {} {}".format(blockTypeLabel, blockDurationLabel, busyReasonLabel if self.busy else "")

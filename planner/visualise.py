@@ -11,9 +11,7 @@ def print_calendar(calendar_schedule):
 def print_issues(issues, time_per_estimation_point=None):
     for issue in issues:
         expected_time = (
-            "| estimated time (minutes) {}".format(
-                issue.estimation * time_per_estimation_point
-            )
+            "| estimated time (minutes) {}".format(issue.estimation * time_per_estimation_point)
             if time_per_estimation_point != None
             else ""
         )
