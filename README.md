@@ -15,11 +15,15 @@ For Google Calendar integration:
 2. Create authorization credentials for a desktop application. To learn how to create credentials for a desktop application, refer to [Create credentials](https://developers.google.com/workspace/guides/create-credentials).
 3. Save file with credentials as `credentials.json` in main project folder.
 
+For Jira integration:
+
+
 ## Usage
 
 ```python
-python3 planner.py
+python3 main.py $env_file
 ```
+`$env_file` is optional parameter to be used if there is another path to env file than default `.env`
 
 ## Known issues
 - all Google Calendar events from user main calendar are being fetched, without checking if user is attending
